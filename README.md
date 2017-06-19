@@ -1,26 +1,18 @@
-Universal Shopify Backdoor
+# Scraper (Reupload)
 
-## Installation
-- Clone or download the repo
-- Change values in ```config.example.json``` then rename to ```config.json```.
-- Install the requirements (done once per download)
-- ```pip install requirements.txt```
-- Run ```main.py```
+A python scraper which looks up products based on inputted keywords for Shopify websites.
+Allows the user to quickly add items to cart, to minimize time taken to checkout (not wasting time looking for products)
+Please run on python3
 
-## Issues
+# Installing
 
-- Assumes that you are adding something that is not out of stock (i.e. new items). Script will terminate if there are out of stock items in your cart.
-- Captcha support currently broken
-
-## Features / TODO
-
-- [x] Add to cart
-- [x] Multiple Items per cart
-- [ ] Proxy support
-- [ ] Checkout
-- [x] Queue support
-- [ ] Negative Keywords
-- [ ] Scheduling
+1. Clone via git or download as zip file
+2. Instal the requirements (done once per install)
+```
+     pip3 install -r requirements.txt
+```
+3. Edit preferences in ```config.cfg```
+4. Run ```main.py``` e.g. ```python3 ./main.py```
 
 ## License
 ```
