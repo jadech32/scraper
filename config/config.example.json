@@ -1,8 +1,8 @@
 {
   "settings": {
-    "url": "https://www.kith.com/sitemap_products_1.xml",
+    "url": "https://www.kith.com/",
     "debug": "false",
-    "captcha": "false",
-    "polling_rate": "1"
+    "polling_rate": "0.1",
+    "no_retries": "5"
   }
 }
