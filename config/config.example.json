@@ -1,0 +1,8 @@
+{
+  "settings": {
+    "url": "https://www.kith.com/sitemap_products_1.xml",
+    "debug": "false",
+    "captcha": "false",
+    "polling_rate": "1"
+  }
+}
