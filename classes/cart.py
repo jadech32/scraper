@@ -68,11 +68,11 @@ class Cart:
             global checkout_url
             global checkout_url_og
             for item in page_data['product']['variants']:
-                if(size.lower() == item['title'].lower()):
+                if item['title'].lower() in size:
                     log('Variant found for size ' + item['title'] + ': ' + str(item['id']),'yellow')
                     item_id = item['id']
                     checkout_url = checkout_url + str(item_id) + ':1,'
-                    break;
+                    #break;
 
         if checkout_url != checkout_url_og:
             self.backdoor()

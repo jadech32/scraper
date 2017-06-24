@@ -22,7 +22,7 @@ if __name__ == '__main__':
     log('Initializing script..','info')
 
     # Small, Medium, Large, one size
-    t1 = threading.Thread(target=cart.add_to_cart, args=(['kith','classic','tee','logo','sand'],'xs'))
+    t1 = threading.Thread(target=cart.add_to_cart, args=(['kith','classic','tee','logo','blue'],['s','l']))
     t1.start()
     #t2.start()
     #t3.start()

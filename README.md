@@ -12,7 +12,8 @@ Please run on python3
      pip3 install -r requirements.txt
 ```
 3. Edit preferences in ```config.example.json```; rename file to ```config.json```
-4. Run ```main.py``` e.g. ```python3 ./main.py```
+4. Edit your keywords and sizing in ```main.py```. Follow the pattern given
+5. Run ```main.py``` e.g. ```python3 ./main.py```
 
 ## License
 ```
