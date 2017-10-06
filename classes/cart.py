@@ -132,3 +132,20 @@ class Cart:
         if checkout_url != checkout_url_og:
             log('Opening URL..','success')
             webbrowser.open_new_tab(checkout_url)
+
+    def sitemapLiveCheck(self):
+        proxy = Proxy()
+        session = requests.session()
+        if not proxy.getProxy():
+            resp = session.get(default_url, allow_redirects=True)
+        else:
+            current_proxy = proxy.getProxy()[proxy.countProxy()]
+            resp = session.get(default_url, proxies=current_proxy, allow_redirects=True)
+
+        if resp.status_code != 200:
+            print(resp.url)
+            log('Sitemap not live, retrying..', 'error')
+        else:
+            print(resp.url)
+            log('Sitemap is live!', 'success')
+
