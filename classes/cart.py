@@ -9,9 +9,10 @@ from classes.logger import Logger
 from classes.tools import Tools
 import time
 from classes.proxies import Proxy
+import winsound
 import csv
 import itertools
-proxy = Proxy()
+
 log = Logger().log
 tools = Tools()
 config = tools.load('config/config.json')
@@ -32,9 +33,13 @@ class Cart:
         self.session = session
         self.lock = lock
 
-    def add_to_cart(self,keywords,size):
+
+    def add_to_cart(self,keywords,neg_keywords,size):
         #print(self.session)
+        proxy = Proxy()
         session = self.session
+        sess = requests.session()
+
         lock = self.lock
         if not proxy.getProxy():
             global empty_warn
@@ -45,8 +50,11 @@ class Cart:
 
         else:
             current_proxy = proxy.getProxy()[proxy.countProxy()]
-
+            res = sess.get('http://ip-api.com/json', proxies=current_proxy)
+            print(res.json()['query'])
             response = session.get(default_url, proxies=current_proxy)
+            if (response.status_code != 200):
+                log("proxy banned.." + str(response.status_code),'info')
 
 
 
@@ -57,7 +65,7 @@ class Cart:
         except:
             log('Sitemap not live, retrying..','error')
             time.sleep(rate)
-            self.add_to_cart(keywords, size)
+            self.add_to_cart(keywords, neg_keywords, size)
         #print(data)
 
         item_url = ''
@@ -69,19 +77,29 @@ class Cart:
             for item in data[1:]:
                 if 'image:image' in item:  # Some objects dont have image:image
                     # print(item['image:image'])
+                    if not neg_keywords:
 
-                    if all(i in item['image:image']['image:title'].lower() for i in keywords):
-                        log('Item found: ' + str(item['image:image']['image:title']), 'yellow')
+                        if all(i in item['image:image']['image:title'].lower() for i in keywords):
+                            log('Item found: ' + str(item['image:image']['image:title']), 'yellow')
 
-                        item_url = item['loc']
+                            item_url = item['loc']
 
-                        item_name = item['image:image']['image:title']
-                        break;
+                            item_name = item['image:image']['image:title']
+                            break;
+                    else:
+                        if all(i in item['image:image']['image:title'].lower() for i in keywords) and \
+                                not any(value in item['image:image']['image:title'].lower() for value in neg_keywords):
+                            log('Item found: ' + str(item['image:image']['image:title']), 'yellow')
+
+                            item_url = item['loc']
+
+                            item_name = item['image:image']['image:title']
+                            break;
 
         except:
             log('Sitemap not yet live, retrying...','error')
             time.sleep(rate)
-            self.add_to_cart(keywords, size)
+            self.add_to_cart(keywords, neg_keywords, size)
 
         if item_url=='':
             log('Item not found, retrying...','error')
@@ -90,7 +108,7 @@ class Cart:
             global retries
             retries_count += 1
             if retries_count < retries:
-                self.add_to_cart(keywords,size)
+                self.add_to_cart(keywords, neg_keywords, size)
         else:
 
             page = session.get(item_url+'.json')
@@ -99,14 +117,15 @@ class Cart:
             global checkout_url
             global checkout_url_og
             for item in page_data['product']['variants']:
+                #winsound.Beep(1500, 1000)
                 for i in size:
 
-                    if i in item['title'].lower() and '.5' not in item['title'].lower():
+                    if i in item['title'].lower():
                         log('Variant found for size ' + item['title'] + ': ' + str(item['id']),'yellow')
                         item_id = item['id']
                         checkout_url += str(item_id) + ':1,'
+                        break
 
-                        #break;
 
 
     def backdoor(self):

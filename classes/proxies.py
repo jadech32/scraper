@@ -10,6 +10,7 @@ from classes.tools import Tools
 import time
 import csv
 import itertools
+from random import randint
 log = Logger().log
 
 class Proxy:
@@ -17,7 +18,7 @@ class Proxy:
     def __init__(self):
         self.proxies = self.importProxy()
         self.countOG = len(self.proxies) - 1
-        self.count = len(self.proxies) - 1
+        self.count = randint(0,len(self.proxies) - 1)
 
     def importProxy(self):
         results = []
@@ -25,7 +26,7 @@ class Proxy:
             for row in csv.reader(inputfile):
                 results.append(row)
 
-        return list(map(lambda x: {'https': 'https://'+x}, list(itertools.chain.from_iterable(results))))
+        return list(map(lambda x: {'http': 'http://'+x}, list(itertools.chain.from_iterable(results))))
 
     def getProxy(self):
         return self.proxies

@@ -12,6 +12,7 @@ Please run on python3
      pip3 install -r requirements.txt
 ```
 3. Edit preferences in ```config.example.json```; rename file to ```config.json```
+4. Create a file under ```config``` named ```proxies.txt```. If you wish to use proxies, fill out each line with proxy in the format ```ip:port```.
 4. Edit your keywords and sizing in ```main.py```. Follow the pattern given
 5. Run ```main.py``` e.g. ```python3 ./main.py```
 
