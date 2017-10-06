@@ -7,13 +7,13 @@ Please run on python3
 # Installing
 
 1. Clone via git or download as zip file
-2. Instal the requirements (done once per install)
+2. Install the requirements (done once per install)
 ```
      pip3 install -r requirements.txt
 ```
 3. Edit preferences in ```config.example.json```; rename file to ```config.json```
-4. Create a file under ```config``` named ```proxies.txt```. If you wish to use proxies, fill out each line with proxy in the format ```ip:port```.
-4. Edit your keywords and sizing in ```main.py```. Follow the pattern given
+4. Create a file under ```config``` named ```proxies.txt```. If you wish to use proxies, fill out each line with proxy in the format ```ip:port```. Currently does not support ```user:password``` proxies.
+4. Edit your keywords and sizing in ```main.py```. Follow the pattern given. Same for negative keywords.
 5. Run ```main.py``` e.g. ```python3 ./main.py```
 
 ## License

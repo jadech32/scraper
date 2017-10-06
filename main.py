@@ -28,7 +28,7 @@ if __name__ == '__main__':
     t3 = threading.Thread(target=cart.add_to_cart, args=(['line','stripe','black','shirt'],   [],       ['small']))
     t4 = threading.Thread(target=cart.add_to_cart, args=(['line','crew','white'],             [],       ['small']))
     t5 = threading.Thread(target=cart.add_to_cart, args=(['6','panel','beige'],           ['pj','ldn'],       ['one']))
-    t6 = threading.Thread(target=cart.add_to_cart, args=(['6','panel','navy'],         ['pj','ldn','correct'],       ['one']))
+    t6 = threading.Thread(target=cart.add_to_cart, args=(['6','panel','navy'],         ['pj','ldn','correct','font'],       ['one']))
     t7 = threading.Thread(target=cart.add_to_cart, args=(['getting','higher','grey'],         [],       ['small']))
     t1.start()
     t2.start()
