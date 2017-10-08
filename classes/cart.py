@@ -34,7 +34,7 @@ class Cart:
         self.lock = lock
 
 
-    def add_to_cart(self,keywords,neg_keywords,size):
+    def add_to_cart(self,keywords,neg_keywords,size, neg_size):
         #print(self.session)
         proxy = Proxy()
         session = self.session
@@ -99,7 +99,7 @@ class Cart:
         except:
             log('Sitemap not yet live, retrying...','error')
             time.sleep(rate)
-            self.add_to_cart(keywords, neg_keywords, size)
+            self.add_to_cart(keywords, neg_keywords, size, neg_size)
 
         if item_url=='':
             log('Item not found, retrying...','error')
@@ -108,7 +108,7 @@ class Cart:
             global retries
             retries_count += 1
             if retries_count < retries:
-                self.add_to_cart(keywords, neg_keywords, size)
+                self.add_to_cart(keywords, neg_keywords, size, neg_size)
         else:
 
             page = session.get(item_url+'.json')
@@ -120,12 +120,12 @@ class Cart:
                 #winsound.Beep(1500, 1000)
                 for i in size:
 
-                    if i in item['title'].lower():
+                    #if i in item['title'].lower():
+                    if all(i in item['title'].lower() for i in size) and not any(value in item['title'].lower() for value in neg_size):
                         log('Variant found for size ' + item['title'] + ': ' + str(item['id']),'yellow')
                         item_id = item['id']
                         checkout_url += str(item_id) + ':1,'
                         break
-
 
 
     def backdoor(self):
@@ -133,7 +133,7 @@ class Cart:
             log('Opening URL..','success')
             webbrowser.open_new_tab(checkout_url)
 
-    def sitemapLiveCheck(self):
+    def sitemaplivecheck(self):
         proxy = Proxy()
         session = requests.session()
         if not proxy.getProxy():
@@ -145,7 +145,9 @@ class Cart:
         if resp.status_code != 200:
             print(resp.url)
             log('Sitemap not live, retrying..', 'error')
+            self.sitemaplivecheck()
         else:
             print(resp.url)
             log('Sitemap is live!', 'success')
+            return True
 
