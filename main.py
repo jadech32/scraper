@@ -22,13 +22,13 @@ if __name__ == '__main__':
     log('Initializing script..','info')
 
     # Small, Medium, Large, one size. If no neg keywords, keep list empty, i.e. [], NOT ['']
-
-    t1 = threading.Thread(target=cart.add_to_cart, args=(['urkle', 'white'], [], ['a'], ['g']))
-    t2 = threading.Thread(target=cart.add_to_cart, args=(['panel', 'navy'], [], ['one'], []))
+    # keywords, neg keywords, size (keep empty string), neg_size
+    #t1 = threading.Thread(target=cart.add_to_cart, args=(['reigning', 'champ'], [], ['l'], ['x']))
+    t1 = threading.Thread(target=cart.add_to_cart, args=(['consortium', 'footpatrol','juice'], [], ['8.5'], []))
     t1.start()
-    t2.start()
+    #t2.start()
     t1.join()
-    t2.join()
+    #t2.join()
     cart.backdoor()
 
 

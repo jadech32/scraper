@@ -26,7 +26,7 @@ class Proxy:
             for row in csv.reader(inputfile):
                 results.append(row)
 
-        return list(map(lambda x: {'http': 'http://'+x}, list(itertools.chain.from_iterable(results))))
+        return list(map(lambda x: {'http': 'http://gnarl192:253GNARL@' + x}, list(itertools.chain.from_iterable(results))))
 
     def getProxy(self):
         return self.proxies

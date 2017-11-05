@@ -50,8 +50,8 @@ class Cart:
 
         else:
             current_proxy = proxy.getProxy()[proxy.countProxy()]
-            res = sess.get('http://ip-api.com/json', proxies=current_proxy)
-            print(res.json()['query'])
+            #res = sess.get('http://ip-api.com/json', proxies=current_proxy)
+            #print(res.json()['query'])
             response = session.get(default_url, proxies=current_proxy)
             if (response.status_code != 200):
                 log("proxy banned.." + str(response.status_code),'info')
@@ -65,7 +65,7 @@ class Cart:
         except:
             log('Sitemap not live, retrying..','error')
             time.sleep(rate)
-            self.add_to_cart(keywords, neg_keywords, size)
+            self.add_to_cart(keywords, neg_keywords, size, neg_size)
         #print(data)
 
         item_url = ''
@@ -83,7 +83,7 @@ class Cart:
                             log('Item found: ' + str(item['image:image']['image:title']), 'yellow')
 
                             item_url = item['loc']
-
+                            log('Item URL: ' + str(item_url), 'yellow')
                             item_name = item['image:image']['image:title']
                             break;
                     else:
@@ -92,7 +92,7 @@ class Cart:
                             log('Item found: ' + str(item['image:image']['image:title']), 'yellow')
 
                             item_url = item['loc']
-
+                            log('Item URL: ' + str(item_url), 'yellow')
                             item_name = item['image:image']['image:title']
                             break;
 
@@ -120,12 +120,20 @@ class Cart:
                 #winsound.Beep(1500, 1000)
                 for i in size:
 
-                    #if i in item['title'].lower():
-                    if all(i in item['title'].lower() for i in size) and not any(value in item['title'].lower() for value in neg_size):
-                        log('Variant found for size ' + item['title'] + ': ' + str(item['id']),'yellow')
-                        item_id = item['id']
-                        checkout_url += str(item_id) + ':1,'
-                        break
+                    if float(i):
+                        if '.5' in i:
+                            if all(i in item['title'].lower() for i in size) and not any(
+                                            value in item['title'].lower() for value in neg_size):
+                                log('Variant found for size ' + item['title'] + ': ' + str(item['id']), 'yellow')
+                                item_id = item['id']
+                                checkout_url += str(item_id) + ':1,'
+                                break
+                        else:
+                            if '.5' not in item['title'].lower() and all(i in item['title'].lower() for i in size) and not any(value in item['title'].lower() for value in neg_size):
+                                log('Variant found for size ' + item['title'] + ': ' + str(item['id']),'yellow')
+                                item_id = item['id']
+                                checkout_url += str(item_id) + ':1,'
+                                break
 
 
     def backdoor(self):
